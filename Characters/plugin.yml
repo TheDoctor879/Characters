@@ -1,0 +1,8 @@
+name: Characters
+version: 1.0.0 BETA
+main: net.valdaycraft.characters.Core
+softdepend: [ValdayCore]
+commands:
+  r:
+    description: Choose your race and select race information.
+    aliases: [races, race]
