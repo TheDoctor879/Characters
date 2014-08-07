@@ -1,9 +1,15 @@
 package net.valdaycraft.characters;
 
+import java.io.File;
+
 import net.valdaycraft.characters.cmd.CoreRaceCommand;
+import net.valdaycraft.characters.craftcitizen.TutorialLocksmith;
+import net.valdaycraft.characters.craftcitizen.events.LocksmithBoolean;
 import net.valdaycraft.characters.types.Human;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Core extends JavaPlugin {
@@ -17,6 +23,8 @@ public class Core extends JavaPlugin {
 		} else {
 			Human.start();
 			getCommand("r").setExecutor(new CoreRaceCommand(this));
+			getServer().getPluginManager().registerEvents(new TutorialLocksmith(), this);
+			getServer().getPluginManager().registerEvents(new LocksmithBoolean(), this);
 		}
 	}
 	private boolean checkValdayCore() {
@@ -31,6 +39,9 @@ public class Core extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
+		File f = new File("ValdayCraft" + File.separator + "Tutorials" + File.separator + "Locksmith.yml");
+		FileConfiguration locksmith = YamlConfiguration.loadConfiguration(f);
+		locksmith.set("Locksmiths", TutorialLocksmith.educatedLock);
 		getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "Characters" + ChatColor.GRAY + ": " + ChatColor.YELLOW + "Unloaded Characters. All data has been logged.");
 	}
 }
